@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DataProviderController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -21,6 +22,14 @@ Route::prefix('v1')->group(function () {
     Route::post('login', [AuthController::class, 'login']);
 
     Route::middleware('auth:sanctum')->group(function (){
-        Route::get('login', [AuthController::class, 'index']);
+        Route::get('loginData', [AuthController::class, 'index']);
+
+        
     });
+
+    Route::post('add', [DataProviderController::class, 'store']);
+    Route::get('list', [DataProviderController::class, 'index']);
+    Route::get('item/{id}', [DataProviderController::class, 'view']);
+    Route::put('item/{id}', [DataProviderController::class, 'update']);
+    Route::delete('item/{id}', [DataProviderController::class, 'destroy']);
 });

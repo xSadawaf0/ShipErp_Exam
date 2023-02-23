@@ -13,17 +13,19 @@ class AuthController extends Controller
 
         $msg = '';
         $data = '';
+        $res = true;
 
         if(auth()->attempt(array('email' => $request->email, 'password' => $request->password))){
             $user = Auth::user();
             $data = new AuthResource($user);
             $msg = "Login Success";
           }else{
+            $res = false;
             $msg = "Invalid Username Or Password";
           }
 
 
-          return response()->json($this->prepareResponse($data,$msg));
+          return response()->json($this->prepareResponse($data,$msg,$res));
     }
 
     public function index(){
