@@ -1,0 +1,36 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Http\Resources\AuthResource;
+use Auth;
+
+
+class AuthController extends Controller
+{
+    public function login(Request $request){
+
+        $msg = '';
+        $data = '';
+
+        if(auth()->attempt(array('email' => $request->email, 'password' => $request->password))){
+            $user = Auth::user();
+            $data = new AuthResource($user);
+            $msg = "Login Success";
+          }else{
+            $msg = "Invalid Username Or Password";
+          }
+
+
+          return response()->json($this->prepareResponse($data,$msg));
+    }
+
+    public function index(){
+        
+        $user = auth()->user();
+
+        return response()->json($user);
+
+    }
+}
